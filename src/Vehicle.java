@@ -1,8 +1,17 @@
+import exceptions.InsufficientFuelException;
+
 abstract class Vehicle {
     private String plateNumber;
     private int fuelLevel;
+    private static final int MIN_FUEL_TO_MOVE = 10;
 
     public Vehicle(String plateNumber, int fuelLevel) {
+        if (plateNumber == null || plateNumber.trim().isEmpty()) {
+            throw new IllegalArgumentException("Plate number cannot be null or empty");
+        }
+        if (fuelLevel < 0) {
+            throw new IllegalArgumentException("Fuel level cannot be negative");
+        }
         this.plateNumber = plateNumber;
         this.fuelLevel = fuelLevel;
     }
@@ -15,14 +24,30 @@ abstract class Vehicle {
         return fuelLevel;
     }
 
+    protected void consumeFuel(int amount) throws InsufficientFuelException {
+        if (fuelLevel < amount) {
+            throw new InsufficientFuelException("Insufficient fuel. Current: " + fuelLevel + ", Required: " + amount);
+        }
+        fuelLevel -= amount;
+    }
+
     public void refuel(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Refuel amount must be positive");
+        }
         fuelLevel += amount;
         System.out.println("Refueled. Fuel level: " + fuelLevel);
     }
 
-    public abstract void move(); // Abstraction
+    protected void checkFuelForMovement() throws InsufficientFuelException {
+        if (fuelLevel < MIN_FUEL_TO_MOVE) {
+            throw new InsufficientFuelException("Not enough fuel to move. Minimum required: " + MIN_FUEL_TO_MOVE);
+        }
+    }
+
+    public abstract void move() throws InsufficientFuelException; // Abstraction
 
     public void displayInfo() {
-        System.out.println("Vehicle Plate: " + plateNumber);
+        System.out.println("Vehicle Plate: " + plateNumber + ", Fuel: " + fuelLevel);
     }
 }
