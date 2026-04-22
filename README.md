@@ -70,12 +70,29 @@ Custom exceptions in `exceptions/` package:
 
 ## Running
 
+### Option 1: Using IntelliJ IDEA (Recommended)
+1. Open the project in IntelliJ IDEA
+2. Right-click on `src/TransportSystem.java`
+3. Select "Run 'TransportSystem.main()'"
+4. The program will run directly from `.java` files
+
+### Option 2: Command Line (Compile first)
 ```bash
 # Compile all files
 javac src/*.java src/exceptions/*.java
 
 # Run the system
 java -cp src TransportSystem
+```
+
+### Option 3: Clean up .class files after running
+```bash
+# Compile and run
+javac src/*.java src/exceptions/*.java
+java -cp src TransportSystem
+
+# Remove .class files
+rm src/*.class src/exceptions/*.class
 ```
 
 The demo showcases:

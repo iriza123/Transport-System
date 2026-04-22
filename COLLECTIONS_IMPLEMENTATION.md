@@ -186,7 +186,12 @@ train.displayStops();
 
 ## Testing the Implementation
 
-Run the system to see all collections in action:
+### Using IntelliJ IDEA (Recommended for .java files):
+1. Open the project in IntelliJ IDEA
+2. Right-click on `src/TransportSystem.java`
+3. Select "Run 'TransportSystem.main()'"
+
+### Using Command Line:
 ```bash
 javac src/*.java src/exceptions/*.java
 java -cp src TransportSystem
