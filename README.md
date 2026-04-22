@@ -1,6 +1,6 @@
 # Transport System
 
-A Java-based transport management system demonstrating OOP principles including inheritance, abstraction, polymorphism, and comprehensive exception handling.
+A Java-based transport management system demonstrating OOP principles including inheritance, abstraction, polymorphism, comprehensive exception handling, and Java Collections Framework.
 
 ## Structure
 
@@ -9,14 +9,43 @@ The system models a public transport network with three vehicle types: Bus, Taxi
 ## Classes
 
 - **Vehicle** (abstract): Base class with plate number, fuel level, consumption tracking, and movement behavior
-- **Bus**: Fixed-route vehicle with passenger capacity management and boarding system
+- **Bus**: Fixed-route vehicle with List<Passenger> for passenger management
 - **Taxi**: On-demand vehicle with driver, availability checking, and trip completion tracking
-- **Train**: Rail-based vehicle with schedule, delay management, and multiple cars
+- **Train**: Rail-based vehicle with List<String> for ordered stops management
 - **Passenger**: Users with ID who book trips on vehicles
 - **Route**: Defines origin, destination, and distance with validation
-- **TransportSystem**: Main class demonstrating the system with exception handling
+- **TransportManager**: Manages vehicles using Set and Map collections
+- **TransportSystem**: Main class demonstrating the system with all features
 
-## Key Improvements
+## Key Features
+
+### Java Collections Framework
+**Demonstrates real-world relationships using appropriate collection types:**
+
+1. **List<Passenger> in Bus**
+   - Relationship: One-to-Many (One Bus → Many Passengers)
+   - Justification: Order matters for boarding sequence, allows indexed access
+   - Operations: add, remove, get, contains
+
+2. **Set<Vehicle> in TransportManager**
+   - Relationship: Unique Collection (No duplicate vehicles)
+   - Justification: Each vehicle must be unique based on plate number
+   - Operations: add, remove, contains, size
+
+3. **Map<String, List<Taxi>> in TransportManager**
+   - Relationship: Key-Value with One-to-Many (Zone → Multiple Taxis)
+   - Justification: Fast lookup of taxis by zone/area
+   - Operations: put, get, keySet, values
+
+4. **Map<String, Route> in TransportManager**
+   - Relationship: Key-Value (Route ID → Route Object)
+   - Justification: O(1) lookup for routes by unique identifier
+   - Operations: put, get, remove, containsKey
+
+5. **List<String> in Train**
+   - Relationship: One-to-Many (One Train → Many Stops)
+   - Justification: Maintains ordered sequence of stops
+   - Operations: add, remove, get (for next stop)
 
 ### Real-Life Logic
 - **Taxi Availability**: Checks availability before booking to prevent double-booking
@@ -50,8 +79,21 @@ java -cp src TransportSystem
 ```
 
 The demo showcases:
-- Bus passenger boarding and capacity management
-- Taxi availability checking and booking
-- Train delay and resume operations
-- Exception handling scenarios
-- Fuel management and refueling
+- **Collections Framework**: List, Set, and Map operations
+- **Bus Operations**: Passenger management with List collection
+- **Taxi Management**: Zone-based lookup with Map collection
+- **Train Operations**: Ordered stops with List collection
+- **Vehicle Registry**: Unique vehicles with Set collection
+- **Route Management**: Fast lookup with Map collection
+- **Exception Handling**: Comprehensive error scenarios
+- **Real-life Logic**: Availability checks, fuel management, capacity limits
+
+## Collections Summary
+
+| Collection Type | Used In | Relationship | Justification |
+|----------------|---------|--------------|---------------|
+| `List<Passenger>` | Bus | One-to-Many | Ordered passengers, boarding sequence |
+| `Set<Vehicle>` | TransportManager | Unique Collection | No duplicate vehicles |
+| `Map<String, List<Taxi>>` | TransportManager | Key-Value + One-to-Many | Zone-based taxi lookup |
+| `Map<String, Route>` | TransportManager | Key-Value | Fast route lookup by ID |
+| `List<String>` | Train | One-to-Many | Ordered sequence of stops |

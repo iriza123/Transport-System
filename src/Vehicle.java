@@ -45,9 +45,23 @@ abstract class Vehicle {
         }
     }
 
-    public abstract void move() throws InsufficientFuelException; // Abstraction
+    public abstract void move() throws InsufficientFuelException;
 
     public void displayInfo() {
         System.out.println("Vehicle Plate: " + plateNumber + ", Fuel: " + fuelLevel);
+    }
+
+    // Override equals and hashCode for Set operations
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Vehicle vehicle = (Vehicle) obj;
+        return plateNumber.equals(vehicle.plateNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return plateNumber.hashCode();
     }
 }
