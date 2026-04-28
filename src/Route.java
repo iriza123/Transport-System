@@ -40,15 +40,14 @@ class Route {
     }
 
     /**
-     * FILE I/O SUPPORT: Convert route to string format for file storage
-     * Format: Origin|Destination|Distance
+     * Convert route to string format for file storage
      */
     public String toFileString() {
         return origin + "|" + destination + "|" + distance;
     }
 
     /**
-     * FILE I/O SUPPORT: Create route from file string
+     * Create route from file string
      */
     public static Route fromFileString(String fileString) throws InvalidRouteException {
         String[] parts = fileString.split("\\|");

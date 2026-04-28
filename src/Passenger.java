@@ -32,15 +32,14 @@ class Passenger {
     }
 
     /**
-     * FILE I/O SUPPORT: Convert passenger to string format for file storage
-     * Format: ID|Name
+     * Convert passenger to string format for file storage
      */
     public String toFileString() {
         return id + "|" + name;
     }
 
     /**
-     * FILE I/O SUPPORT: Create passenger from file string
+     * Create passenger from file string
      */
     public static Passenger fromFileString(String fileString) {
         String[] parts = fileString.split("\\|");

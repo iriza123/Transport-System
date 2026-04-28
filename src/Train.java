@@ -1,23 +1,14 @@
 import exceptions.InsufficientFuelException;
 import java.util.*;
 
-/**
- * Train class with collection for managing multiple stops
- */
 class Train extends Vehicle {
     private String schedule;
     private int cars;
     private boolean delayed;
     
     /**
-     * COLLECTION TYPE: List<String>
-     * RELATIONSHIP: One-to-Many (One Train → Many Stops)
-     * JUSTIFICATION:
-     * - List maintains the order of stops (sequence matters for train routes)
-     * - Trains visit stops in a specific order
-     * - Allows duplicate stops (train might pass through same station on return)
-     * - Indexed access for "next stop" operations
-     * - ArrayList provides efficient sequential access
+     * List of stops for the train route
+     * Maintains ordered sequence of stops
      */
     private List<String> stops;
 
@@ -32,10 +23,9 @@ class Train extends Vehicle {
         this.schedule = schedule;
         this.cars = cars;
         this.delayed = false;
-        this.stops = new ArrayList<>(); // ArrayList for ordered stops
+        this.stops = new ArrayList<>();
     }
 
-    // COLLECTION OPERATION: Adding elements
     public void addStop(String stop) {
         if (stop == null || stop.trim().isEmpty()) {
             throw new IllegalArgumentException("Stop name cannot be null or empty");
@@ -44,9 +34,8 @@ class Train extends Vehicle {
         System.out.println("Stop added: " + stop + " (Position: " + stops.size() + ")");
     }
 
-    // COLLECTION OPERATION: Retrieving elements
     public List<String> getStops() {
-        return new ArrayList<>(stops); // Return copy
+        return new ArrayList<>(stops);
     }
 
     public String getNextStop(int currentIndex) {
@@ -56,7 +45,6 @@ class Train extends Vehicle {
         return null;
     }
 
-    // COLLECTION OPERATION: Removing elements
     public boolean removeStop(String stop) {
         boolean removed = stops.remove(stop);
         if (removed) {

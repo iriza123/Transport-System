@@ -5,55 +5,35 @@ import java.io.IOException;
 
 /**
  * TransportManager - Manages all vehicles and routes in the transport system
- * Demonstrates multiple collection types for different relationships
- * NOW WITH FILE I/O SUPPORT for data persistence
+ * Includes data persistence through File I/O operations
  */
 public class TransportManager {
     
     /**
-     * COLLECTION TYPE: Set<Vehicle>
-     * RELATIONSHIP: Unique Collection (No duplicate vehicles)
-     * JUSTIFICATION:
-     * - Set ensures no duplicate vehicles (based on plate number)
-     * - Each vehicle must be unique in the system
-     * - Order doesn't matter for vehicle registration
-     * - Fast lookup to check if vehicle exists O(1)
-     * - HashSet provides efficient add, remove, contains operations
+     * Set of registered vehicles (ensures uniqueness)
      */
     private Set<Vehicle> registeredVehicles;
     
     /**
-     * COLLECTION TYPE: Map<String, List<Taxi>>
-     * RELATIONSHIP: Key-Value with One-to-Many (Zone → Multiple Taxis)
-     * JUSTIFICATION:
-     * - Map allows quick lookup of taxis by zone/area
-     * - Key: Area/Zone name (e.g., "Downtown", "Airport")
-     * - Value: List of taxis operating in that area
-     * - Efficient for finding available taxis in specific locations O(1)
-     * - HashMap provides fast key-based access
+     * Map of taxis organized by zone
+     * Key: Zone name, Value: List of taxis in that zone
      */
     private Map<String, List<Taxi>> taxisByZone;
     
     /**
-     * COLLECTION TYPE: Map<String, Route>
-     * RELATIONSHIP: Key-Value (Route ID → Route Object)
-     * JUSTIFICATION:
-     * - Map provides O(1) lookup by route ID
-     * - Each route has a unique identifier
-     * - Fast retrieval when booking trips
-     * - HashMap for efficient key-value storage
+     * Map of routes by route ID
+     * Key: Route ID, Value: Route object
      */
     private Map<String, Route> routes;
 
     public TransportManager() {
-        this.registeredVehicles = new HashSet<>(); // HashSet for fast lookup
-        this.taxisByZone = new HashMap<>(); // HashMap for efficient zone-based lookup
-        this.routes = new HashMap<>(); // HashMap for route management
+        this.registeredVehicles = new HashSet<>();
+        this.taxisByZone = new HashMap<>();
+        this.routes = new HashMap<>();
     }
 
-    // ========== VEHICLE MANAGEMENT (Set Operations) ==========
+    // ========== VEHICLE MANAGEMENT ==========
     
-    // COLLECTION OPERATION: Adding to Set
     public boolean registerVehicle(Vehicle vehicle) {
         if (vehicle == null) {
             throw new IllegalArgumentException("Vehicle cannot be null");
@@ -72,7 +52,6 @@ public class TransportManager {
         return added;
     }
 
-    // COLLECTION OPERATION: Removing from Set
     public boolean unregisterVehicle(Vehicle vehicle) {
         boolean removed = registeredVehicles.remove(vehicle);
         if (removed) {
@@ -86,9 +65,8 @@ public class TransportManager {
         return removed;
     }
 
-    // COLLECTION OPERATION: Retrieving from Set
     public Set<Vehicle> getAllVehicles() {
-        return new HashSet<>(registeredVehicles); // Return copy
+        return new HashSet<>(registeredVehicles);
     }
 
     public int getTotalVehicleCount() {
@@ -99,9 +77,8 @@ public class TransportManager {
         return registeredVehicles.contains(vehicle);
     }
 
-    // ========== TAXI ZONE MANAGEMENT (Map Operations) ==========
+    // ========== TAXI ZONE MANAGEMENT ==========
     
-    // COLLECTION OPERATION: Adding to Map
     public void addTaxiToZone(Taxi taxi, String zone) {
         if (taxi == null || zone == null || zone.trim().isEmpty()) {
             throw new IllegalArgumentException("Taxi and zone cannot be null");
@@ -117,7 +94,6 @@ public class TransportManager {
         }
     }
 
-    // COLLECTION OPERATION: Retrieving from Map
     public List<Taxi> getTaxisInZone(String zone) {
         List<Taxi> taxisInZone = taxisByZone.get(zone);
         return taxisInZone != null ? new ArrayList<>(taxisInZone) : new ArrayList<>();
@@ -135,7 +111,6 @@ public class TransportManager {
         return available;
     }
 
-    // COLLECTION OPERATION: Removing from Map
     private void removeTaxiFromAllZones(Taxi taxi) {
         for (List<Taxi> taxiList : taxisByZone.values()) {
             taxiList.remove(taxi);
@@ -146,9 +121,8 @@ public class TransportManager {
         return new HashSet<>(taxisByZone.keySet());
     }
 
-    // ========== ROUTE MANAGEMENT (Map Operations) ==========
+    // ========== ROUTE MANAGEMENT ==========
     
-    // COLLECTION OPERATION: Adding to Map
     public void addRoute(String routeId, Route route) {
         if (routeId == null || route == null) {
             throw new IllegalArgumentException("Route ID and route cannot be null");
@@ -157,7 +131,6 @@ public class TransportManager {
         System.out.println("Route " + routeId + " added: " + route.getOrigin() + " → " + route.getDestination());
     }
 
-    // COLLECTION OPERATION: Retrieving from Map
     public Route getRoute(String routeId) {
         return routes.get(routeId);
     }
@@ -166,7 +139,6 @@ public class TransportManager {
         return routes.containsKey(routeId);
     }
 
-    // COLLECTION OPERATION: Removing from Map
     public Route removeRoute(String routeId) {
         Route removed = routes.remove(routeId);
         if (removed != null) {
@@ -210,8 +182,7 @@ public class TransportManager {
     // ========== FILE I/O OPERATIONS ==========
     
     /**
-     * FILE I/O OPERATION: Save all system data to files
-     * Writes vehicles, routes, and system state to persistent storage
+     * Save all system data to files
      */
     public void saveAllData() {
         try {
@@ -244,8 +215,7 @@ public class TransportManager {
     }
     
     /**
-     * FILE I/O OPERATION: Load all system data from files
-     * Reads vehicles, routes, and system state from persistent storage
+     * Load all system data from files
      */
     public void loadAllData() {
         try {
@@ -277,7 +247,7 @@ public class TransportManager {
     }
     
     /**
-     * FILE I/O OPERATION: Export system report to file
+     * Export system report to file
      */
     public void exportSystemReport(String filename) {
         try {
@@ -322,7 +292,7 @@ public class TransportManager {
     }
     
     /**
-     * FILE I/O OPERATION: Display system logs
+     * Display system logs
      */
     public void displayLogs() {
         try {

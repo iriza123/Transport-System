@@ -8,14 +8,8 @@ class Bus extends Vehicle {
     private Route route;
     
     /**
-     * COLLECTION TYPE: List<Passenger>
-     * RELATIONSHIP: One-to-Many (One Bus → Many Passengers)
-     * JUSTIFICATION: 
-     * - List is used because a bus can have multiple passengers
-     * - Order matters (boarding sequence, seat assignment)
-     * - Duplicates are not expected but List allows flexibility
-     * - We need indexed access for operations like removing specific passengers
-     * - ArrayList provides efficient random access O(1) and dynamic sizing
+     * List of passengers on the bus
+     * One-to-Many relationship: One Bus can have many Passengers
      */
     private List<Passenger> passengers;
 
@@ -29,10 +23,9 @@ class Bus extends Vehicle {
         }
         this.capacity = capacity;
         this.route = route;
-        this.passengers = new ArrayList<>(); // ArrayList for efficient indexed access
+        this.passengers = new ArrayList<>();
     }
 
-    // COLLECTION OPERATION: Adding elements
     public void addPassenger(Passenger p) throws CapacityExceededException {
         if (p == null) {
             throw new IllegalArgumentException("Passenger cannot be null");
@@ -44,7 +37,6 @@ class Bus extends Vehicle {
         System.out.println(p.getName() + " boarded the bus. Passengers: " + passengers.size() + "/" + capacity);
     }
 
-    // COLLECTION OPERATION: Removing elements
     public void removePassenger(Passenger p) {
         if (passengers.remove(p)) {
             System.out.println(p.getName() + " has alighted from the bus. Remaining: " + passengers.size());
@@ -53,9 +45,8 @@ class Bus extends Vehicle {
         }
     }
 
-    // COLLECTION OPERATION: Retrieving elements
     public List<Passenger> getPassengers() {
-        return new ArrayList<>(passengers); // Return copy to protect internal state
+        return new ArrayList<>(passengers);
     }
 
     public int getPassengerCount() {
