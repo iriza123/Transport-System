@@ -38,4 +38,28 @@ class Route {
     public void displayRoute() {
         System.out.println("Route: " + origin + " to " + destination + " (" + distance + " km)");
     }
+
+    /**
+     * FILE I/O SUPPORT: Convert route to string format for file storage
+     * Format: Origin|Destination|Distance
+     */
+    public String toFileString() {
+        return origin + "|" + destination + "|" + distance;
+    }
+
+    /**
+     * FILE I/O SUPPORT: Create route from file string
+     */
+    public static Route fromFileString(String fileString) throws InvalidRouteException {
+        String[] parts = fileString.split("\\|");
+        if (parts.length == 3) {
+            return new Route(parts[0], parts[1], Double.parseDouble(parts[2]));
+        }
+        throw new IllegalArgumentException("Invalid route file format");
+    }
+
+    @Override
+    public String toString() {
+        return origin + " → " + destination + " (" + distance + " km)";
+    }
 }

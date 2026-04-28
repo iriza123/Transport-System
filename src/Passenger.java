@@ -30,4 +30,28 @@ class Passenger {
         System.out.println(name + " (ID: " + id + ") booked a trip.");
         v.move();
     }
+
+    /**
+     * FILE I/O SUPPORT: Convert passenger to string format for file storage
+     * Format: ID|Name
+     */
+    public String toFileString() {
+        return id + "|" + name;
+    }
+
+    /**
+     * FILE I/O SUPPORT: Create passenger from file string
+     */
+    public static Passenger fromFileString(String fileString) {
+        String[] parts = fileString.split("\\|");
+        if (parts.length == 2) {
+            return new Passenger(parts[1], parts[0]);
+        }
+        throw new IllegalArgumentException("Invalid passenger file format");
+    }
+
+    @Override
+    public String toString() {
+        return "Passenger{ID=" + id + ", Name=" + name + "}";
+    }
 }
