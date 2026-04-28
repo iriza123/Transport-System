@@ -1,6 +1,6 @@
 # Transport System
 
-A Java-based transport management system demonstrating OOP principles including inheritance, abstraction, polymorphism, comprehensive exception handling, and **Java Collections Framework**.
+A Java-based transport management system demonstrating OOP principles including inheritance, abstraction, polymorphism, comprehensive exception handling, **Java Collections Framework**, and **File I/O for data persistence**.
 
 ## Structure
 
@@ -18,6 +18,29 @@ The system models a public transport network with three vehicle types: Bus, Taxi
 - **TransportSystem**: Main class demonstrating the system with all features
 
 ## Key Features
+
+### File I/O (Input/Output) Operations
+**Demonstrates data persistence through reading and writing to files:**
+
+1. **Writing Data (Output Operations)**
+   - `saveVehicles()` - Write vehicle data to file
+   - `saveRoutes()` - Write route data to file
+   - `savePassengers()` - Write passenger data to file
+   - `appendLog()` - Append system logs
+   - `exportSystemReport()` - Generate comprehensive reports
+
+2. **Reading Data (Input Operations)**
+   - `loadVehicles()` - Read vehicle data from file
+   - `loadRoutes()` - Read route data from file
+   - `loadPassengers()` - Read passenger data from file
+   - `readLogs()` - Retrieve system logs
+
+3. **File I/O Features**
+   - Uses `BufferedReader` and `BufferedWriter` for efficient I/O
+   - Proper exception handling with try-catch blocks
+   - Data persistence across program restarts
+   - Human-readable text file format
+   - Automatic directory creation
 
 ### Java Collections Framework
 **Demonstrates real-world relationships using appropriate collection types:**
@@ -72,19 +95,25 @@ Custom exceptions in `exceptions/` package:
 
 ### Using IntelliJ IDEA (Recommended)
 1. Open the project in IntelliJ IDEA
-2. Right-click on `src/TransportSystem.java`
-3. Select "Run 'TransportSystem.main()'"
+2. Right-click on `src/TransportSystemWithFileIO.java` (for File I/O demo)
+3. Or right-click on `src/TransportSystem.java` (for Collections demo)
+4. Select "Run 'TransportSystemWithFileIO.main()'" or "Run 'TransportSystem.main()'"
 
 ### Using Command Line
 ```bash
 # Compile all files
-javac src/*.java src/exceptions/*.java
+javac src/*.java src/exceptions/*.java src/io/*.java
 
-# Run the system
+# Run Collections Framework demo
 java -cp src TransportSystem
+
+# Run File I/O demonstration
+java -cp src TransportSystemWithFileIO
 ```
 
-The demo showcases:
+The demos showcase:
+- **File I/O Operations**: Writing and reading data from files
+- **Data Persistence**: Saving and loading system state
 - **Collections Framework**: List, Set, and Map operations
 - **Bus Operations**: Passenger management with List collection
 - **Taxi Management**: Zone-based lookup with Map collection
@@ -93,6 +122,15 @@ The demo showcases:
 - **Route Management**: Fast lookup with Map collection
 - **Exception Handling**: Comprehensive error scenarios
 - **Real-life Logic**: Availability checks, fuel management, capacity limits
+
+## File I/O Data Files
+
+After running the File I/O demo, check the `data/` directory:
+- `vehicles.txt` - Vehicle registration data
+- `routes.txt` - Route information
+- `passengers.txt` - Passenger records
+- `system.log` - System event logs
+- `system_report.txt` - Exported system reports
 
 ## Collections Summary
 

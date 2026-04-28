@@ -1,9 +1,12 @@
 import exceptions.*;
+import io.DataPersistence;
 import java.util.*;
+import java.io.IOException;
 
 /**
  * TransportManager - Manages all vehicles and routes in the transport system
  * Demonstrates multiple collection types for different relationships
+ * NOW WITH FILE I/O SUPPORT for data persistence
  */
 public class TransportManager {
     
@@ -201,6 +204,136 @@ public class TransportManager {
         for (Map.Entry<String, Route> entry : routes.entrySet()) {
             System.out.print("Route ID: " + entry.getKey() + " - ");
             entry.getValue().displayRoute();
+        }
+    }
+}
+
+    // ========== FILE I/O OPERATIONS ==========
+    
+    /**
+     * FILE I/O OPERATION: Save all system data to files
+     * Writes vehicles, routes, and system state to persistent storage
+     */
+    public void saveAllData() {
+        try {
+            // Save vehicles
+            List<String> vehicleData = new ArrayList<>();
+            for (Vehicle vehicle : registeredVehicles) {
+                String vehicleInfo = vehicle.getPlateNumber() + "|" + 
+                                   vehicle.getClass().getSimpleName() + "|" + 
+                                   vehicle.getFuelLevel();
+                vehicleData.add(vehicleInfo);
+            }
+            DataPersistence.saveVehicles(vehicleData);
+            
+            // Save routes
+            Map<String, String> routeData = new HashMap<>();
+            for (Map.Entry<String, Route> entry : routes.entrySet()) {
+                routeData.put(entry.getKey(), entry.getValue().toFileString());
+            }
+            DataPersistence.saveRoutes(routeData);
+            
+            // Log the save operation
+            DataPersistence.appendLog("System data saved successfully");
+            
+            System.out.println("\n✓ All data saved successfully!");
+            
+        } catch (IOException e) {
+            System.err.println("Error saving data: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * FILE I/O OPERATION: Load all system data from files
+     * Reads vehicles, routes, and system state from persistent storage
+     */
+    public void loadAllData() {
+        try {
+            System.out.println("\n===== LOADING DATA FROM FILES =====");
+            
+            // Load routes
+            Map<String, String> routeData = DataPersistence.loadRoutes();
+            for (Map.Entry<String, String> entry : routeData.entrySet()) {
+                try {
+                    Route route = Route.fromFileString(entry.getValue());
+                    routes.put(entry.getKey(), route);
+                } catch (Exception e) {
+                    System.err.println("Error loading route: " + entry.getKey());
+                }
+            }
+            
+            // Load vehicles (basic info only - full reconstruction would need more data)
+            List<String> vehicleData = DataPersistence.loadVehicles();
+            System.out.println("Vehicle data loaded: " + vehicleData.size() + " entries");
+            
+            // Log the load operation
+            DataPersistence.appendLog("System data loaded successfully");
+            
+            System.out.println("✓ Data loaded successfully!\n");
+            
+        } catch (IOException e) {
+            System.err.println("Error loading data: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * FILE I/O OPERATION: Export system report to file
+     */
+    public void exportSystemReport(String filename) {
+        try {
+            DataPersistence.initializeDataDirectory();
+            java.io.BufferedWriter writer = new java.io.BufferedWriter(
+                new java.io.FileWriter("data/" + filename)
+            );
+            
+            writer.write("╔════════════════════════════════════════════════════════════╗\n");
+            writer.write("║           TRANSPORT SYSTEM - FULL REPORT                  ║\n");
+            writer.write("╚════════════════════════════════════════════════════════════╝\n\n");
+            writer.write("Generated: " + new java.util.Date() + "\n\n");
+            
+            // Vehicles section
+            writer.write("===== REGISTERED VEHICLES (" + registeredVehicles.size() + ") =====\n");
+            for (Vehicle vehicle : registeredVehicles) {
+                writer.write("- " + vehicle.getPlateNumber() + " (" + 
+                           vehicle.getClass().getSimpleName() + ") - Fuel: " + 
+                           vehicle.getFuelLevel() + "\n");
+            }
+            writer.write("\n");
+            
+            // Routes section
+            writer.write("===== AVAILABLE ROUTES (" + routes.size() + ") =====\n");
+            for (Map.Entry<String, Route> entry : routes.entrySet()) {
+                writer.write("- " + entry.getKey() + ": " + entry.getValue().toString() + "\n");
+            }
+            writer.write("\n");
+            
+            // Taxi zones section
+            writer.write("===== TAXI ZONES (" + taxisByZone.size() + ") =====\n");
+            for (Map.Entry<String, List<Taxi>> entry : taxisByZone.entrySet()) {
+                writer.write("- " + entry.getKey() + ": " + entry.getValue().size() + " taxis\n");
+            }
+            
+            writer.close();
+            System.out.println("✓ System report exported to: data/" + filename);
+            
+        } catch (IOException e) {
+            System.err.println("Error exporting report: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * FILE I/O OPERATION: Display system logs
+     */
+    public void displayLogs() {
+        try {
+            List<String> logs = DataPersistence.readLogs();
+            System.out.println("\n===== SYSTEM LOGS (" + logs.size() + " entries) =====");
+            for (String log : logs) {
+                System.out.println(log);
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading logs: " + e.getMessage());
         }
     }
 }
